@@ -1,4 +1,4 @@
-import { NodeType } from '@/types/NodeData';
+import { NodeType } from '../../types/NodeData';
 
 export const nodeTypePluralMap: Record<NodeType, string> = {
   column: 'columns',

@@ -1,4 +1,4 @@
-import { GenericNode } from '@/types/NodeData';
+import { GenericNode } from '../../types/NodeData';
 
 const columns: Record<string, GenericNode<'column'>> = {
   col0: {
