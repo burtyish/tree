@@ -1,3 +1,11 @@
-.toggleButton[aria-pressed="true"] {
-    transform: rotate(90deg);
+.toggleButton[aria-pressed='true'] .buttonContent {
+  transform: rotate(90deg);
+}
+.toggleButton .buttonContent {
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+
+.loader {
+  margin-inline-start: 1rem;
 }

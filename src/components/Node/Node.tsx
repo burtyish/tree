@@ -2,6 +2,7 @@ import { motion, usePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { NodeType, TreeNode } from '../../types/NodeData';
+import { Spinner } from '../Spinner/Spinner';
 import styles from './Node.module.css';
 
 export function Node({
@@ -16,18 +17,14 @@ export function Node({
   const id = node.item.id;
   return (
     <ListItem>
-      {'children' in node && node.children.length > 0 ? (
-        <button
-          className={styles.toggleButton}
-          aria-pressed={isExpanded(id)}
-          onClick={() => onToggleExpand(id)}
-        >
-          {'>'}
-        </button>
-      ) : (
-        <>[ ]</>
-      )}
-
+      <button
+        className={styles.toggleButton}
+        aria-pressed={isExpanded(id)}
+        onClick={() => onToggleExpand(id)}
+        disabled={'children' in node && node.children.length > 0 ? false : true}
+      >
+        <div className={styles.buttonContent}>{'>'}</div>
+      </button>
       {`${node.item.type}: ${node.item.name}`}
       {'children' in node && node.children.length > 0 && isExpanded(id) && (
         <NodeChildren
@@ -69,11 +66,11 @@ function NodeChildren({
     );
   }
 
-  if (status === 'loading') {
-    return <>loading children...</>;
+  if (status === 'error') {
+    return <>error</>;
+  } else {
+    return <Spinner className={styles.loader} />;
   }
-
-  return <>else</>;
 }
 
 const transition = { type: 'spring', stiffness: 500, damping: 50, mass: 1 };

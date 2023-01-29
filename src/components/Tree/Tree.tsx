@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useCallback, useState } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { Node } from '../Node/Node';
+import { Spinner } from '../Spinner/Spinner';
 
 export function Tree() {
   const [nodeIdExpanded, setNodeExpanded] = useState<
@@ -43,5 +44,9 @@ export function Tree() {
     );
   }
 
-  return <>{status === 'loading' ? 'loading...' : 'else'} </>;
+  if (status === 'error') {
+    return 'error';
+  } else {
+    return <Spinner />;
+  }
 }
