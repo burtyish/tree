@@ -1,5 +1,8 @@
+import { motion, usePresence } from 'framer-motion';
+import { ReactNode } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { NodeType, TreeNode } from '../../types/NodeData';
+import styles from './Node.module.css';
 
 export function Node({
   node,
@@ -12,10 +15,14 @@ export function Node({
 }) {
   const id = node.item.id;
   return (
-    <li>
+    <ListItem>
       {'children' in node && node.children.length > 0 ? (
-        <button onClick={() => onToggleExpand(id)}>
-          {isExpanded(id) ? '[-]' : '[+]'}
+        <button
+          className={styles.toggleButton}
+          aria-pressed={isExpanded(id)}
+          onClick={() => onToggleExpand(id)}
+        >
+          {'>'}
         </button>
       ) : (
         <>[ ]</>
@@ -30,7 +37,7 @@ export function Node({
           isExpanded={isExpanded}
         />
       )}
-    </li>
+    </ListItem>
   );
 }
 
@@ -49,7 +56,7 @@ function NodeChildren({
 
   if (status === 'success') {
     return (
-      <ul>
+      <motion.ul layout>
         {Object.entries(data).map(([id, child]) => (
           <Node
             key={child.item.id}
@@ -58,7 +65,7 @@ function NodeChildren({
             isExpanded={isExpanded}
           />
         ))}
-      </ul>
+      </motion.ul>
     );
   }
 
@@ -67,4 +74,25 @@ function NodeChildren({
   }
 
   return <>else</>;
+}
+
+const transition = { type: 'spring', stiffness: 500, damping: 50, mass: 1 };
+function ListItem({ children }: { children: ReactNode }) {
+  const [isPresent, safeToRemove] = usePresence();
+
+  const animations = {
+    layout: true,
+    initial: 'out',
+    style: {
+      position: isPresent ? 'static' : 'absolute',
+    },
+    animate: isPresent ? 'in' : 'out',
+    variants: {
+      in: { scaleY: 1, opacity: 1 },
+      out: { scaleY: 0, opacity: 0 },
+    },
+    onAnimationComplete: () => !isPresent && safeToRemove(),
+    transition,
+  } as const;
+  return <motion.li {...animations}>{children}</motion.li>;
 }
