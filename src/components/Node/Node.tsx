@@ -16,7 +16,7 @@ export function Node({
 }) {
   const id = node.item.id;
   return (
-    <ListItem>
+    <>
       <button
         className={styles.toggleButton}
         aria-pressed={isExpanded(id)}
@@ -34,7 +34,7 @@ export function Node({
           isExpanded={isExpanded}
         />
       )}
-    </ListItem>
+    </>
   );
 }
 
@@ -54,13 +54,14 @@ function NodeChildren({
   if (status === 'success') {
     return (
       <motion.ul layout>
-        {Object.entries(data).map(([id, child]) => (
-          <Node
-            key={child.item.id}
-            node={child}
-            onToggleExpand={onToggleExpand}
-            isExpanded={isExpanded}
-          />
+        {Object.entries(data).map(([id, child], index) => (
+          <ListItem key={child.item.id} index={index}>
+            <Node
+              node={child}
+              onToggleExpand={onToggleExpand}
+              isExpanded={isExpanded}
+            />
+          </ListItem>
         ))}
       </motion.ul>
     );
@@ -73,23 +74,33 @@ function NodeChildren({
   }
 }
 
-const transition = { type: 'spring', stiffness: 500, damping: 50, mass: 1 };
-function ListItem({ children }: { children: ReactNode }) {
+const transition = { type: 'spring', stiffness: 900, damping: 50, mass: 1 };
+function ListItem({ children, index }: { children: ReactNode; index: number }) {
   const [isPresent, safeToRemove] = usePresence();
 
-  const animations = {
-    layout: true,
-    initial: 'out',
-    style: {
-      position: isPresent ? 'static' : 'absolute',
-    },
-    animate: isPresent ? 'in' : 'out',
-    variants: {
-      in: { scaleY: 1, opacity: 1 },
-      out: { scaleY: 0, opacity: 0 },
-    },
-    onAnimationComplete: () => !isPresent && safeToRemove(),
-    transition,
-  } as const;
-  return <motion.li {...animations}>{children}</motion.li>;
+  return (
+    <motion.li
+      {...{
+        layout: true,
+        initial: 'out',
+        style: {
+          position: isPresent ? 'static' : 'absolute',
+        },
+        animate: isPresent ? 'in' : 'out',
+        variants: {
+          in: (index) => ({
+            scaleY: 1,
+            opacity: 1,
+            transition: { delay: index * 0.02 },
+          }),
+          out: { scaleY: 0, opacity: 0 },
+        },
+        custom: index,
+        onAnimationComplete: () => !isPresent && safeToRemove(),
+        transition,
+      }}
+    >
+      {children}
+    </motion.li>
+  );
 }

@@ -31,13 +31,14 @@ export function Tree() {
     return (
       <AnimatePresence>
         <ul>
-          {Object.entries(data).map(([_id, connection]) => (
-            <Node
-              key={connection.item.id}
-              node={connection}
-              onToggleExpand={toggleExpanded}
-              isExpanded={isNodeExpanded}
-            />
+          {Object.entries(data).map(([id, connection]) => (
+            <li key={id}>
+              <Node
+                node={connection}
+                onToggleExpand={toggleExpanded}
+                isExpanded={isNodeExpanded}
+              />
+            </li>
           ))}
         </ul>
       </AnimatePresence>

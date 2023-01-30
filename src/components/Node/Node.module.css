@@ -3,7 +3,7 @@
 }
 .toggleButton .buttonContent {
   transform: rotate(0deg);
-  transition: transform 0.3s;
+  transition: transform 0.03s;
 }
 
 .loader {
