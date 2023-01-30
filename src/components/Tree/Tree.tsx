@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
-import { Node } from '../Node/Node';
-import { Spinner } from '../Spinner/Spinner';
+import { Node } from '../Node';
+import { Spinner } from '../Spinner';
 
 export function Tree() {
   const [nodeIdExpanded, setNodeExpanded] = useState<
@@ -43,7 +43,7 @@ export function Tree() {
   }
 
   if (status === 'error') {
-    return 'error';
+    return <>error</>;
   } else {
     return <Spinner />;
   }

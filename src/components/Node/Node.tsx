@@ -2,7 +2,7 @@ import { AnimatePresence, motion, usePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { NodeType, TreeNode } from '../../types/NodeData';
-import { Spinner } from '../Spinner/Spinner';
+import { Spinner } from '../Spinner';
 import styles from './Node.module.css';
 
 export function Node({

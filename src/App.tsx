@@ -2,7 +2,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import styles from './App.module.css';
-import { Tree } from './components/Tree/Tree';
+import { Tree } from './components/Tree';
 
 function App() {
   return (
