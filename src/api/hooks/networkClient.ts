@@ -10,7 +10,6 @@ export async function getData(url: URL) {
   console.log(`fetching ${url}`);
   await delay(1000); // simulate network delay
 
-  // todo: reduce code duplication
   if (url.pathname.endsWith('connections')) {
     return pickNodes(mockData.connections, ids);
   }

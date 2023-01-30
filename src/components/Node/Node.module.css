@@ -1,6 +1,13 @@
+.nodeContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .toggleButton[aria-pressed='true'] .buttonContent {
   transform: rotate(90deg);
 }
+
 .toggleButton .buttonContent {
   transform: rotate(0deg);
   transition: transform 0.03s;

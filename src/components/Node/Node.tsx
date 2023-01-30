@@ -1,9 +1,12 @@
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AnimatePresence, motion, usePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { NodeType, TreeNode } from '../../types/NodeData';
 import { Spinner } from '../Spinner';
 import styles from './Node.module.css';
+import { NodeIcon } from './NodeIcon';
 
 export function Node({
   node,
@@ -17,15 +20,23 @@ export function Node({
   const id = node.item.id;
   return (
     <>
-      <button
-        className={styles.toggleButton}
-        aria-pressed={isExpanded(id)}
-        onClick={() => onToggleExpand(id)}
-        disabled={'children' in node && node.children.length > 0 ? false : true}
-      >
-        <div className={styles.buttonContent}>{'>'}</div>
-      </button>
-      {`${node.item.type}: ${node.item.name}`}
+      <div className={styles.nodeContainer}>
+        <button
+          className={styles.toggleButton}
+          aria-pressed={isExpanded(id)}
+          onClick={() => onToggleExpand(id)}
+          disabled={
+            'children' in node && node.children.length > 0 ? false : true
+          }
+        >
+          <FontAwesomeIcon
+            className={styles.buttonContent}
+            icon={faChevronRight}
+          />
+        </button>
+        <NodeIcon type={node.item.type} />
+        {`${node.item.type}: ${node.item.name}`}
+      </div>
       <AnimatePresence>
         {'children' in node && node.children.length > 0 && isExpanded(id) && (
           <NodeChildren
