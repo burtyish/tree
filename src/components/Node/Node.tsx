@@ -53,7 +53,7 @@ function NodeChildren({
 
   if (status === 'success') {
     return (
-      <motion.ul layout>
+      <ul>
         {Object.entries(data).map(([id, child], index) => (
           <ListItem key={child.item.id} index={index}>
             <Node
@@ -63,7 +63,7 @@ function NodeChildren({
             />
           </ListItem>
         ))}
-      </motion.ul>
+      </ul>
     );
   }
 
@@ -74,14 +74,13 @@ function NodeChildren({
   }
 }
 
-const transition = { type: 'spring', stiffness: 900, damping: 50, mass: 1 };
 function ListItem({ children, index }: { children: ReactNode; index: number }) {
   const [isPresent, safeToRemove] = usePresence();
 
   return (
     <motion.li
       {...{
-        layout: true,
+        // layout: true,
         initial: 'out',
         style: {
           position: isPresent ? 'static' : 'absolute',
@@ -89,15 +88,22 @@ function ListItem({ children, index }: { children: ReactNode; index: number }) {
         animate: isPresent ? 'in' : 'out',
         variants: {
           in: (index) => ({
-            scaleY: 1,
+            y: 0,
             opacity: 1,
-            transition: { delay: index * 0.02 },
+            transition: { delay: index * 0.03 },
           }),
-          out: { scaleY: 0, opacity: 0 },
+          out: {
+            y: -50,
+            opacity: 0,
+            transition: {
+              when: 'afterChildren',
+              staggerChildren: 0.3,
+            },
+          },
         },
         custom: index,
         onAnimationComplete: () => !isPresent && safeToRemove(),
-        transition,
+        transition: { type: 'spring', bounce: 0 },
       }}
     >
       {children}

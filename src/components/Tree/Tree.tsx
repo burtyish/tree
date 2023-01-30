@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import { useCallback, useState } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { Node } from '../Node/Node';
@@ -29,19 +28,17 @@ export function Tree() {
 
   if (status === 'success') {
     return (
-      <AnimatePresence>
-        <ul>
-          {Object.entries(data).map(([id, connection]) => (
-            <li key={id}>
-              <Node
-                node={connection}
-                onToggleExpand={toggleExpanded}
-                isExpanded={isNodeExpanded}
-              />
-            </li>
-          ))}
-        </ul>
-      </AnimatePresence>
+      <ul>
+        {Object.entries(data).map(([id, connection]) => (
+          <li key={id}>
+            <Node
+              node={connection}
+              onToggleExpand={toggleExpanded}
+              isExpanded={isNodeExpanded}
+            />
+          </li>
+        ))}
+      </ul>
     );
   }
 
