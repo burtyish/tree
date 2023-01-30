@@ -1,4 +1,4 @@
-import { motion, usePresence } from 'framer-motion';
+import { AnimatePresence, motion, usePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 import { useNodesData } from '../../api/hooks/apiHooks';
 import { NodeType, TreeNode } from '../../types/NodeData';
@@ -26,14 +26,16 @@ export function Node({
         <div className={styles.buttonContent}>{'>'}</div>
       </button>
       {`${node.item.type}: ${node.item.name}`}
-      {'children' in node && node.children.length > 0 && isExpanded(id) && (
-        <NodeChildren
-          ids={node.children.map((child) => child.id)}
-          type={node.children[0].type}
-          onToggleExpand={onToggleExpand}
-          isExpanded={isExpanded}
-        />
-      )}
+      <AnimatePresence>
+        {'children' in node && node.children.length > 0 && isExpanded(id) && (
+          <NodeChildren
+            ids={node.children.map((child) => child.id)}
+            type={node.children[0].type}
+            onToggleExpand={onToggleExpand}
+            isExpanded={isExpanded}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
@@ -53,17 +55,24 @@ function NodeChildren({
 
   if (status === 'success') {
     return (
-      <ul>
-        {Object.entries(data).map(([id, child], index) => (
-          <ListItem key={child.item.id} index={index}>
-            <Node
-              node={child}
-              onToggleExpand={onToggleExpand}
-              isExpanded={isExpanded}
-            />
-          </ListItem>
-        ))}
-      </ul>
+      <motion.ul
+        exit={{ height: 0 }}
+        style={{
+          overflow: 'hidden' /* to hide children's exit animation upwards */,
+        }}
+      >
+        <AnimatePresence>
+          {Object.entries(data).map(([id, child], index) => (
+            <ListItem key={child.item.id} index={index}>
+              <Node
+                node={child}
+                onToggleExpand={onToggleExpand}
+                isExpanded={isExpanded}
+              />
+            </ListItem>
+          ))}
+        </AnimatePresence>
+      </motion.ul>
     );
   }
 
