@@ -10,7 +10,11 @@ export function useNodesData<T extends NodeType>(type: T, ids: string[] = []) {
 
   return useQuery<Record<string, GenericNode<T>>>(
     queryKey,
-    () => getData(url) as Promise<Record<string, GenericNode<T>>>,
+    async () => {
+      const data = (await getData(url)) as Record<string, GenericNode<T>>;
+      console.log(`fetched ${url}: `, JSON.stringify(data, null, 2));
+      return data;
+    },
     {
       refetchOnWindowFocus: false,
     }

@@ -9,7 +9,6 @@ export async function getData(url: URL) {
   const ids = url.searchParams.getAll('id');
   console.log(`fetching ${url}`);
   await delay(1000); // simulate network delay
-  console.log(`fetched ${url}`);
 
   // todo: reduce code duplication
   if (url.pathname.endsWith('connections')) {
