@@ -17,6 +17,7 @@ export function useNodesData<T extends NodeType>(type: T, ids: readonly string[]
     },
     {
       refetchOnWindowFocus: false,
+      staleTime: Infinity,
     }
   );
 }
