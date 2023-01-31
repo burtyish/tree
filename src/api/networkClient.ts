@@ -1,11 +1,11 @@
-import { GenericNode, NodeType } from '../../types/NodeData';
-import { mockData } from '../mock-data/data';
+import { GenericNode, NodeType } from '../types/NodeData';
+import { mockData } from './mock-data/data';
 
 /**
  *
  * @param url example 'api/connections/id=x&id=y
  */
-export async function getData(url: URL) {
+export async function getNodes(url: URL) {
   const ids = url.searchParams.getAll('id');
   console.log(`fetching ${url}`);
   await delay(1000); // simulate network delay

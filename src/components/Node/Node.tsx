@@ -2,7 +2,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AnimatePresence, motion, usePresence } from 'framer-motion';
 import { ReactNode } from 'react';
-import { useNodesData } from '../../api/hooks/apiHooks';
+import { useNodesData } from '../../api';
 import { NodeType, TreeNode } from '../../types/NodeData';
 import { Spinner } from '../Spinner';
 import styles from './Node.module.css';

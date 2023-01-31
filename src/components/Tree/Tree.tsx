@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useNodesData } from '../../api/hooks/apiHooks';
+import { useNodesData } from '../../api';
 import { Node } from '../Node';
 import { Spinner } from '../Spinner';
 import styles from './Tree.module.css';
